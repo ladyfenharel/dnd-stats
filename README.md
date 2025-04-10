@@ -4,7 +4,7 @@ Submitted by: **Amanda Stone**
 
 This web app: **allows users to view all D&D 5e spells and search, sort, or filter through them.**
 
-Time spent: **7.5** hours spent in total
+Time spent: **5** hours spent in total
 
 ## API Used
 
@@ -66,7 +66,7 @@ GIFs created with [Kap](https://getkap.co/) for macOS
 
 ## Notes
 
-Working with the API- it's a free, open source so the documentation is incorrect or off sometimes. But still very helpful!
+Working with the API was a bit tough- it's free and open source so naturally the documentation will be incorrect or off sometimes. But still very helpful!
 
 ## License
 
