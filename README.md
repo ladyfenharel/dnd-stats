@@ -3,6 +3,7 @@
 Submitted by: **Amanda Stone**
 
 This web app: **allows users to view all D&D 5e spells and search, sort, or filter through them.**
+[View Deployment on GitHub Pages](https://ladyfenharel.github.io/dnd-stats/)
 
 Time spent: **5** hours spent in total
 
@@ -62,6 +63,7 @@ Filter by Spell Level - Input with Range Option
 Filter by Multiple Filters
 ![filter_multiple_filters](https://github.com/user-attachments/assets/a96df6b0-56dc-46b0-ac95-da57008fb3b5)
 
+[View Deployment on GitHub Pages](https://ladyfenharel.github.io/dnd-stats/)
 GIFs created with [Kap](https://getkap.co/) for macOS
 
 ## Notes
