@@ -9,20 +9,30 @@ import './index.css'
 
 import Root from './routes/root.jsx'
 import ErrorPage from './error-page.jsx'
+import Sidebar from './components/Sidebar.jsx'
+import SpellList from './components/SpellList.jsx'
+import SpellDetail from './components/SpellDetail.jsx'
 
 const router = createBrowserRouter(
   [
     {
-      path: '/',
-      element: <Root />,
-      errorElement: <ErrorPage />,
+      path: "/",
+      element: <Sidebar />,
       children: [
         {
           index: true,
-          element: <div>Welcome! Select a contact.</div>,
+          element: <SpellList />, // 👈 default route is the spell list
+        },
+        {
+          path: "spells",
+          element: <SpellList />,
+        },
+        {
+          path: "spells/:slug",
+          element: <SpellDetail />,
         },
       ],
-    },
+    },    
   ],
   {
     basename: "/dnd-stats",

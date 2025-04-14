@@ -1,29 +1,58 @@
-import React from "react";
-import SpellList from "./components/SpellList";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import {
-  Typography,
-  Box,
-  AppBar,
-  Toolbar,
-} from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import SpellList from './components/SpellList';
+import SpellDetail from './components/SpellDetail';
 
-function App() {
+const App = () => {
+  const [spells, setSpells] = useState([]);
+  const [filterText, setFilterText] = useState('');
+  const [selectedSchool, setSelectedSchool] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState('');
+
+  useEffect(() => {
+    const fetchSpells = async () => {
+      try {
+        const response = await fetch('https://api.open5e.com/spells/');
+        const data = await response.json();
+        setSpells(data.results);
+      } catch (error) {
+        console.error('Error fetching spells:', error);
+      }
+    };
+  
+    fetchSpells();
+  }, []);  
+
+  const filteredSpells = spells.filter((spell) => {
+    const nameMatches = spell.name.toLowerCase().includes(filterText.toLowerCase());
+    const levelMatches = selectedLevel === '' || spell.level_int === parseInt(selectedLevel);
+    const schoolMatches = selectedSchool === '' || spell.school === selectedSchool;
+    return nameMatches && levelMatches && schoolMatches;
+  });
+
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            D&D 5e Spellbook
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <SpellList />
-    </Box>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Sidebar
+              filterText={filterText}
+              setFilterText={setFilterText}
+              selectedSchool={selectedSchool}
+              setSelectedSchool={setSelectedSchool}
+              selectedLevel={selectedLevel}
+              setSelectedLevel={setSelectedLevel}
+            />
+          }
+        >
+          <Route index element={<SpellList spells={filteredSpells} />} />
+          <Route path=":slug" element={<SpellDetail />} />
+        </Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import App from "../App";
 import Sidebar from "../components/Sidebar";
+import { Box } from "@mui/material";
 
 export default function Root() {
   return (
