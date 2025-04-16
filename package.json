@@ -19,9 +19,12 @@
     "@fontsource/roboto": "^5.2.5",
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
+    "chart.js": "^4.4.9",
     "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.0",
+    "recharts": "^2.15.2",
     "use-count-up": "^3.0.1"
   },
   "devDependencies": {

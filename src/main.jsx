@@ -1,46 +1,19 @@
-// src/main.jsx
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom'
-import './index.css'
+// main.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import './index.css';
+import { SpellProvider } from './context/SpellContext';
 
-import Root from './routes/root.jsx'
-import ErrorPage from './error-page.jsx'
-import Sidebar from './components/Sidebar.jsx'
-import SpellList from './components/SpellList.jsx'
-import SpellDetail from './components/SpellDetail.jsx'
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <Sidebar />,
-      children: [
-        {
-          index: true,
-          element: <SpellList />, // 👈 default route is the spell list
-        },
-        {
-          path: "spells",
-          element: <SpellList />,
-        },
-        {
-          path: "spells/:slug",
-          element: <SpellDetail />,
-        },
-      ],
-    },    
-  ],
-  {
-    basename: "/dnd-stats",
-  }
-);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter basename="/dnd-stats">
+      <SpellProvider>
+        <App />
+      </SpellProvider>
+    </BrowserRouter>
   </React.StrictMode>
-)
+);
