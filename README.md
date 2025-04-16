@@ -1,74 +1,56 @@
-# Web Development Project 5 - *Dungeons and Dragons Spells*
+# Web Development Project 6 - *D&D Spells*
 
 Submitted by: **Amanda Stone**
 
-This web app: **allows users to view all D&D 5e spells and search, sort, or filter through them.**
-[View Deployment on GitHub Pages](https://ladyfenharel.github.io/dnd-stats/)
+This web app: **allows users to browse, search, and filter spells from Dungeons & Dragons Fifth Edition.**
 
-Time spent: **5** hours spent in total
-
-## API Used
-
-[Open5e](https://open5e.com/) - A Dungeons & Dragons Fifth Edition Open Source API
+Time spent: **8** hours spent in total
 
 ## Required Features
 
 The following **required** functionality is completed:
 
-- [x] **The site has a dashboard displaying a list of data fetched using an API call**
-  - The dashboard should display at least 10 unique items, one per row
-  - The dashboard includes at least two features in each row
-- [x] **`useEffect` React hook and `async`/`await` are used**
-- [x] **The app dashboard includes at least three summary statistics about the data** 
-  - The app dashboard includes at least three summary statistics about the data:
-    - Total number of spells
-    - Total spells that require material components
-    - Total spells that requires concentration
-- [x] **A search bar allows the user to search for an item in the fetched data**
-  - The search bar **correctly** filters items in the list, only displaying items matching the search query
-  - The list of results dynamically updates as the user types into the search bar
-- [x] **An additional filter allows the user to restrict displayed items by specified categories**
-  - The filter restricts items in the list using a **different attribute** than the search bar 
-  - The filter **correctly** filters items in the list, only displaying items matching the filter attribute in the dashboard
-  - The dashboard list dynamically updates as the user adjusts the filter
+- [x] **Clicking on an item in the list view displays more details about it**
+  - Clicking on an item in the dashboard list navigates to a detail view for that item
+  - Detail view includes extra information about the item not included in the dashboard view
+  - The same sidebar is displayed in detail view as in dashboard view
+  - *To ensure an accurate grade, your sidebar **must** be viewable when showing the details view in your recording.*
+- [x] **Each detail view of an item has a direct, unique URL link to that item’s detail view page**
+  -  *To ensure an accurate grade, the URL/address bar of your web browser **must** be viewable in your recording.*
+- [x] **The app includes at least two unique charts developed using the fetched data that tell an interesting story**
+  - At least two charts should be incorporated into the dashboard view of the site
+  - Each chart should describe a different aspect of the dataset
+
 
 The following **optional** features are implemented:
 
-- [x] Multiple filters can be applied simultaneously
-- [x] Filters use different input types
-  - e.g., as a text input, a dropdown or radio selection, and/or a slider
-- [x] The user can enter specific bounds for filter values
+- [ ] The site’s customized dashboard contains more content that explains what is interesting about the data 
+  - e.g., an additional description, graph annotation, suggestion for which filters to use, or an additional page that explains more about the data
+- [ ] The site allows users to toggle between different data visualizations
+  - User should be able to use some mechanism to toggle between displaying and hiding visualizations 
 
+  
 The following **additional** features are implemented:
 
-* [x] Implemented Material UI design elements for better UI
-      
+- [x] Implemented a "Back to Spell List" button on the detail view for easy return navigation
+- [x] Integrated clear loading indicators during data fetching and informative error messages when issues occur
+- [x] Implemented pagination controls to allow users to navigate through the extensive list of spells in manageable sections
+- [x] Incorporated two distinct chart types (bar and pie) using Recharts to provide insightful visual representations of the spell data
+- [x] Utilized useNavigate() for programmatic control over routing, enabling dynamic navigation within the application
+
 ## Video Walkthrough
 
-Search Feature
-![search_feature](https://github.com/user-attachments/assets/2fd4bee8-93b1-4764-8411-5d4e96ca46f6)
+Here's a walkthrough of implemented features:
+![Spell_Details](https://github.com/user-attachments/assets/71d7bf61-b23a-4637-af0c-24f1fa09cc83)
+![Responsive_Charts](https://github.com/user-attachments/assets/ade8280a-1b14-46f5-bb5f-1e33a088d33e)
+![Dashboard](https://github.com/user-attachments/assets/43509734-29b4-4fc3-a1ae-c483f0f03cce)
+![Charts](https://github.com/user-attachments/assets/1c6e2f9c-fe0e-4c1b-b906-e73299157f92)
 
-Filter by School
-![filter_by_school](https://github.com/user-attachments/assets/f82c1c9e-4d96-4de6-9d95-bc195c70aecc)
-
-Filter by Spell Level - Dropdown Menu
-![filter_by_spell_level_dropdown](https://github.com/user-attachments/assets/ff5fc0fe-eb07-4fb5-a39f-a9b0aed7d579)
-
-Filter by Spell Level - Slider with Range Option
-![filter_by_spell_level_slider](https://github.com/user-attachments/assets/b4ef30f9-e551-4789-b6a5-e9dfdc151990)
-
-Filter by Spell Level - Input with Range Option
-![filter_by_spell_level_input](https://github.com/user-attachments/assets/1fdc6412-3cac-4813-beb7-6b1f9d8eb9e8)
-
-Filter by Multiple Filters
-![filter_multiple_filters](https://github.com/user-attachments/assets/a96df6b0-56dc-46b0-ac95-da57008fb3b5)
-
-[View Deployment on GitHub Pages](https://ladyfenharel.github.io/dnd-stats/)
-GIFs created with [Kap](https://getkap.co/) for macOS
+GIFs created with [Kap](https://getkap.co/)
 
 ## Notes
 
-Working with the API was a bit tough- it's free and open source so naturally the documentation will be incorrect or off sometimes. But still very helpful!
+I had to reorganize my project hierarchy completely to implement React Router. I also went through a few different libraries before liking the look of the charts.
 
 ## License
 
