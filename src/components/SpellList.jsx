@@ -65,6 +65,8 @@ const SpellList = () => {
     sortResetToken,
     comparisonKeys,
     toggleComparisonSpell,
+    spellListDraftKeys,
+    toggleSpellListSpell,
   } = useSpells();
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
@@ -186,12 +188,30 @@ const SpellList = () => {
                 },
               })}
             >
-              <TableCell align="center" onClick={(e) => e.stopPropagation()}>
+              <TableCell
+                align="center"
+                onClick={(e) => e.stopPropagation()}
+                sx={{ width: 52, p: 0.5 }}
+              >
                 <Tooltip title="Add to compare (max 2)">
                   <Checkbox
                     checked={comparisonKeys.includes(spell.key)}
                     onChange={() => toggleComparisonSpell(spell.key)}
                     inputProps={{ 'aria-label': `Compare ${spell.name}` }}
+                    size="small"
+                  />
+                </Tooltip>
+              </TableCell>
+              <TableCell
+                align="center"
+                onClick={(e) => e.stopPropagation()}
+                sx={{ width: 76, maxWidth: 76, p: 0.5 }}
+              >
+                <Tooltip title="Add/remove from current spell list draft">
+                  <Checkbox
+                    checked={spellListDraftKeys.includes(spell.key)}
+                    onChange={() => toggleSpellListSpell(spell.key)}
+                    inputProps={{ 'aria-label': `Add ${spell.name} to spell list` }}
                     size="small"
                   />
                 </Tooltip>
@@ -299,6 +319,8 @@ const SpellList = () => {
       toggleSchoolFocus,
       comparisonKeys,
       toggleComparisonSpell,
+      spellListDraftKeys,
+      toggleSpellListSpell,
     ],
   );
 
@@ -346,7 +368,22 @@ const SpellList = () => {
       <Table sx={{ minWidth: 650 }} aria-label="Spells in the current results">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Compare</TableCell>
+            <TableCell align="center" sx={{ width: 52, p: 0.5 }}>
+              Compare
+            </TableCell>
+            <TableCell
+              align="center"
+              sx={{
+                width: 76,
+                maxWidth: 76,
+                p: 0.5,
+                fontSize: '0.7rem',
+                lineHeight: 1.2,
+                whiteSpace: 'normal',
+              }}
+            >
+              Spell list
+            </TableCell>
             <TableCell>Name</TableCell>
             <TableCell align="right">Level</TableCell>
             <TableCell align="right">

@@ -4,6 +4,48 @@ import { buildSpellsListUrl, fetchAllSpellsForCorpus } from '../utils/spellsApi'
 import { cachedFetchJson } from '../utils/httpCache';
 
 const ITEMS_PER_PAGE = 20;
+const SPELL_LISTS_STORAGE_KEY = 'dnd-spell-lists-v1';
+/** Previous key — read once to migrate saved data */
+const SPELL_LISTS_LEGACY_STORAGE_KEY = 'dnd-spell-loadouts-v1';
+
+function createSpellListId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `spell-list-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function normalizeSpellListEntries(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter(
+    (item) =>
+      item &&
+      typeof item.id === 'string' &&
+      typeof item.name === 'string' &&
+      Array.isArray(item.spells) &&
+      typeof item.createdAt === 'number',
+  );
+}
+
+function readStoredSpellLists() {
+  try {
+    const primary = localStorage.getItem(SPELL_LISTS_STORAGE_KEY);
+    let lists = normalizeSpellListEntries(primary ? JSON.parse(primary) : []);
+
+    if (lists.length === 0) {
+      const legacy = localStorage.getItem(SPELL_LISTS_LEGACY_STORAGE_KEY);
+      lists = normalizeSpellListEntries(legacy ? JSON.parse(legacy) : []);
+    }
+
+    const byId = new Map();
+    for (const entry of lists) {
+      if (!byId.has(entry.id)) byId.set(entry.id, entry);
+    }
+    return [...byId.values()].sort((a, b) => b.createdAt - a.createdAt);
+  } catch {
+    return [];
+  }
+}
 
 export function SpellProvider({ children }) {
   const [spells, setSpells] = useState([]);
@@ -18,6 +60,8 @@ export function SpellProvider({ children }) {
   const [filters, setFilters] = useState({});
   const [sortResetToken, setSortResetToken] = useState(0);
   const [comparisonKeys, setComparisonKeys] = useState([]);
+  const [spellListDraftKeys, setSpellListDraftKeys] = useState([]);
+  const [savedSpellLists, setSavedSpellLists] = useState([]);
 
   const [allSpellsForCharts, setAllSpellsForCharts] = useState([]);
   const [chartStatsLoading, setChartStatsLoading] = useState(true);
@@ -62,7 +106,6 @@ export function SpellProvider({ children }) {
         return prev.filter((k) => k !== spellKey);
       }
       if (prev.length >= 2) {
-        // Replace the oldest selected spell when adding a third.
         return [prev[1], spellKey];
       }
       return [...prev, spellKey];
@@ -72,6 +115,60 @@ export function SpellProvider({ children }) {
   const clearComparison = useCallback(() => {
     setComparisonKeys([]);
   }, []);
+
+  const toggleSpellListSpell = useCallback((spellKey) => {
+    setSpellListDraftKeys((prev) => {
+      if (prev.includes(spellKey)) {
+        return prev.filter((k) => k !== spellKey);
+      }
+      return [...prev, spellKey];
+    });
+  }, []);
+
+  const clearSpellListDraft = useCallback(() => {
+    setSpellListDraftKeys([]);
+  }, []);
+
+  const saveSpellList = useCallback(
+    (name) => {
+      const trimmed = name?.trim();
+      if (!trimmed || spellListDraftKeys.length === 0) {
+        return false;
+      }
+      const next = {
+        id: createSpellListId(),
+        name: trimmed,
+        spells: [...spellListDraftKeys],
+        createdAt: Date.now(),
+      };
+      setSavedSpellLists((prev) => [next, ...prev]);
+      return true;
+    },
+    [spellListDraftKeys],
+  );
+
+  const openSpellList = useCallback((spellListId) => {
+    setSavedSpellLists((prev) => {
+      const list = prev.find((entry) => entry.id === spellListId);
+      if (!list) {
+        return prev;
+      }
+      setSpellListDraftKeys(list.spells);
+      return prev;
+    });
+  }, []);
+
+  const deleteSpellList = useCallback((spellListId) => {
+    setSavedSpellLists((prev) => prev.filter((entry) => entry.id !== spellListId));
+  }, []);
+
+  useEffect(() => {
+    setSavedSpellLists(readStoredSpellLists());
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(SPELL_LISTS_STORAGE_KEY, JSON.stringify(savedSpellLists));
+  }, [savedSpellLists]);
 
   useEffect(() => {
     let cancelled = false;
@@ -125,6 +222,13 @@ export function SpellProvider({ children }) {
         comparisonKeys,
         toggleComparisonSpell,
         clearComparison,
+        spellListDraftKeys,
+        toggleSpellListSpell,
+        clearSpellListDraft,
+        savedSpellLists,
+        saveSpellList,
+        openSpellList,
+        deleteSpellList,
         allSpellsForCharts,
         chartStatsLoading,
         chartStatsError,

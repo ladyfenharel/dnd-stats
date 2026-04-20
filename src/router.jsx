@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import SpellDetail from './pages/SpellDetail';
+import SpellListDetail from './pages/SpellListDetail';
 import ErrorPage from './error-page';
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
     children: [
       { index: true, element: <Dashboard /> },
       { path: 'spells/:slug', element: <SpellDetail /> },
+      { path: 'spell-lists/:spellListId', element: <SpellListDetail /> },
     ],
   },
 ];
