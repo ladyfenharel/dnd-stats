@@ -14,7 +14,7 @@ A React dashboard for exploring and comparing D&D spells from **Open5e v2**, wit
 ## Tech Stack
 
 - **React 19 + Vite** for fast dev/build cycles
-- **React Router** for nested routing and deep-link detail pages (`/spells/:key`)
+- **React Router** for nested routing and deep-link pages (`/spells/:key`, `/spell-lists/:id`)
 - **MUI** for component system, accessibility, and responsive layout
 - **Recharts** for school/level visualizations
 - **Vitest + ESLint + GitHub Actions** for baseline quality checks
@@ -30,6 +30,12 @@ A React dashboard for exploring and comparing D&D spells from **Open5e v2**, wit
   - state-driven comparison engine for multi-entity evaluation
   - select up to 2 spells from the table
   - side-by-side summary panel for quick evaluation
+- **Saved spell lists**:
+  - use the **Spell list** column in the table to build a draft selection
+  - name and save from the **Save spell list** accordion on the dashboard (draft persists in app state until cleared or saved)
+  - lists are stored in **`localStorage`** under `dnd-spell-lists-v1` (with one-time read from the legacy key `dnd-spell-loadouts-v1` if the new key is empty)
+  - header **saved lists** control (book icon + count): opens a menu to open the printable sheet for a list or delete it
+  - printable / reference view at **`/spell-lists/:spellListId`** (opening a list from the menu also loads that list’s spells into the draft for editing in the table)
 - **Deep links + resilient detail page**:
   - direct navigation to `/spells/:key`
   - fetches missing spell details on refresh/direct load
@@ -58,7 +64,7 @@ The application is structured as a client-side data exploration system:
 
 - **API Layer**: Fetches paginated spell data from Open5e v2
 - **Service Layer**: Normalizes and caches responses with TTL-based invalidation
-- **State Layer**: Manages filters, comparison selection, and routing state
+- **State Layer**: Manages filters, comparison selection, spell list draft/saved lists, and routing state
 - **UI Layer**: Renders interactive tables, detail views, charts, and comparison panels
 
 Simple flow:
