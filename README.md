@@ -23,9 +23,11 @@ A React dashboard for exploring and comparing D&D spells from **Open5e v2**, wit
 
 - **Search + filters** for level, school, and class (`name__icontains`, `level`, `school__key`, `classes__key`)
 - **Interactive table tags**:
+  - row-level interaction system using semantic chip-based filtering
   - color-coded school/class chips
   - click school/class chips to prioritize matching rows at the top
 - **Spell comparison system**:
+  - state-driven comparison engine for multi-entity evaluation
   - select up to 2 spells from the table
   - side-by-side summary panel for quick evaluation
 - **Deep links + resilient detail page**:
@@ -49,6 +51,19 @@ A React dashboard for exploring and comparing D&D spells from **Open5e v2**, wit
 
 - **Client-side cache with TTLs**  
   Different TTLs by use case (short for list pages, longer for detail/corpus) to balance freshness and responsiveness.
+
+## System Architecture
+
+The application is structured as a client-side data exploration system:
+
+- **API Layer**: Fetches paginated spell data from Open5e v2
+- **Service Layer**: Normalizes and caches responses with TTL-based invalidation
+- **State Layer**: Manages filters, comparison selection, and routing state
+- **UI Layer**: Renders interactive tables, detail views, charts, and comparison panels
+
+Simple flow:
+
+`API -> Service Layer -> Cache -> State -> UI`
 
 ## Run Locally
 
